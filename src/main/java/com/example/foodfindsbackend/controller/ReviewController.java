@@ -3,7 +3,9 @@ package com.example.foodfindsbackend.controller;
 import com.example.foodfindsbackend.model.Review;
 import com.example.foodfindsbackend.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -30,18 +32,17 @@ public class ReviewController {
 
     @PostMapping
     public Review createReview(@RequestBody Review book) {
-        return reviewService.createReview(book);
+        try {
+            return reviewService.createReview(book);
+        } catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
     public List<Review> getAllReviews() {
         return reviewService.getAllReviews();
     }
-
-//    @GetMapping("/{id}")
-//    public Review getBookById(@PathVariable String id) {
-//        return reviewService.get(id).orElse(null);
-//    }
 
     @PutMapping("/{id}")
     public Review updateReview(@PathVariable String id, @RequestBody Review review) {
