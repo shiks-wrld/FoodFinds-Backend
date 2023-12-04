@@ -31,9 +31,9 @@ public class ReviewController {
     }
 
     @PostMapping
-    public Review createReview(@RequestBody Review book) {
+    public Review createReview(@RequestBody Review review) {
         try {
-            return reviewService.createReview(book);
+            return reviewService.createReview(review);
         } catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
