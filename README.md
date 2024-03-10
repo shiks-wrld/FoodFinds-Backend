@@ -9,4 +9,4 @@ To connect this application with the frontend, you can access the backend code h
 
 ## Development server
 
-Run `FoodFindsBackendApplication` for the application to get started. Navigate to `http://localhost:8080/`. 
+Run `FoodFindsBackendApplication` file for the application to get started. Navigate to `http://localhost:8080/`. 
