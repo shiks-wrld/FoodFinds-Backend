@@ -4,8 +4,8 @@ import com.example.foodfindsbackend.model.Review;
 import com.example.foodfindsbackend.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -31,11 +31,16 @@ public class ReviewController {
     }
 
     @PostMapping
-    public Review createReview(@RequestBody Review review) {
+    public ResponseEntity<Object> createReview(@RequestBody Review review) {
+        if (!isValidReviewData(review)) {
+            return ResponseEntity.badRequest().body("Invalid review data");
+        }
+
         try {
-            return reviewService.createReview(review);
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            Review createdReview = reviewService.createReview(review);
+            return ResponseEntity.status(HttpStatus.OK).body(createdReview);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -45,13 +50,37 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
-    public Review updateReview(@PathVariable String id, @RequestBody Review review) {
+    public ResponseEntity<Object> updateReview(@PathVariable String id, @RequestBody Review review) {
+        if (!reviewService.reviewExists(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
         review.setId(id);
-        return reviewService.updateReview(review);
+        try {
+            Review updatedReview = reviewService.updateReview(review);
+            return ResponseEntity.ok(updatedReview);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{id}")
     public void deleteReview(@PathVariable String id) {
         reviewService.deleteReview(id);
+    }
+
+    private boolean isValidReviewData(Review review) {
+        if (review.getAddress() == null || review.getAddress().isEmpty() ||
+                review.getLocationName() == null || review.getLocationName().isEmpty() ||
+                review.getCuisine() == null || review.getCuisine().isEmpty() ||
+                review.getRating() == null || review.getRating() < 0 || review.getRating() > 5) {
+            return false;
+        }
+
+        if (review.getRating() < 3 && (review.getComments() == null || review.getComments().isEmpty())) {
+            return false;
+        }
+
+        return true;
     }
 }

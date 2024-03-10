@@ -16,6 +16,18 @@ public class Recommendation implements Serializable {
     private String recommendation;
     private String recommendationAddress;
 
+    public Recommendation() {
+    }
+
+    public Recommendation(String id, String cuisine, String taste, String mealType, String recommendation, String recommendationAddress) {
+        this.id = id;
+        this.cuisine = cuisine;
+        this.taste = taste;
+        this.mealType = mealType;
+        this.recommendation = recommendation;
+        this.recommendationAddress = recommendationAddress;
+    }
+
     public String getId() {
         return id;
     }

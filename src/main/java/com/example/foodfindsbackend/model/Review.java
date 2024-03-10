@@ -16,6 +16,19 @@ public class Review implements Serializable {
     private String foodQuality;
     private String comments;
 
+    public Review() {
+    }
+
+    public Review(String id, String address, String locationName, String cuisine, Integer rating, String foodQuality, String comments) {
+        this.id = id;
+        this.address = address;
+        this.locationName = locationName;
+        this.cuisine = cuisine;
+        this.rating = rating;
+        this.foodQuality = foodQuality;
+        this.comments = comments;
+    }
+
     public String getId() {
         return id;
     }
