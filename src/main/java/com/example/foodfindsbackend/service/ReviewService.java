@@ -20,7 +20,8 @@ public class ReviewService {
     }
 
     public Review createReview(Review review) {
-        return reviewRepository.save(review);
+        Review createdReview = reviewRepository.save(review);
+        return createdReview;
     }
 
     public List<Review> getAllReviews() {
@@ -28,12 +29,11 @@ public class ReviewService {
     }
 
     public Review updateReview(Review review) {
-        if (!reviewRepository.existsById(review.getId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found");
+        if (review.getId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
         }
         return reviewRepository.save(review);
     }
-
 
     public void deleteReview(String id) {
         reviewRepository.deleteById(id);
