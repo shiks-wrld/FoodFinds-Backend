@@ -8,20 +8,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class OpenAIService {
+public class CodeAnalysisService {
 
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String OPENAI_API_KEY = "Key"; // add key here
+    private static final String OPENAI_API_KEY = "OPEN_AI_KEY"; // add key here
 
     private final RestTemplate restTemplate;
 
-    public OpenAIService(RestTemplate restTemplate) {
+    public CodeAnalysisService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public String analyzeCode(String codeSnippet) {
-        String model = "gpt-3.5-turbo";
+        String model = "gpt-3.5-turbo"; // Using GPT-3.5
 
+        // Create the request body with code snippet
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + OPENAI_API_KEY);
@@ -36,6 +37,7 @@ public class OpenAIService {
         requestBody.put("temperature", 0.7);
         requestBody.put("max_tokens", 150);
 
+        // Send POST request
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
         try {
             ResponseEntity<String> response = restTemplate.exchange(OPENAI_API_URL, HttpMethod.POST, request, String.class);

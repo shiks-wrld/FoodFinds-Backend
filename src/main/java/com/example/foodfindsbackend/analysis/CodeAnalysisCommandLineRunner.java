@@ -8,17 +8,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+// Run the analysis through the terminal using gradle
 @Component
 public class CodeAnalysisCommandLineRunner implements CommandLineRunner {
 
-    private final OpenAIService openAIService;
+    private final CodeAnalysisService codeAnalysisService;
 
-    public CodeAnalysisCommandLineRunner(OpenAIService openAIService) {
-        this.openAIService = openAIService;
+    public CodeAnalysisCommandLineRunner(CodeAnalysisService codeAnalysisService) {
+        this.codeAnalysisService = codeAnalysisService;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (args.length != 1) {
             System.out.println("Please provide the path to the code file as an argument.");
             return;
@@ -28,12 +29,13 @@ public class CodeAnalysisCommandLineRunner implements CommandLineRunner {
         String codeSnippet = readCodeFromFile(filePath);
 
         if (codeSnippet != null) {
-            String analysisResult = openAIService.analyzeCode(codeSnippet);
+            String analysisResult = codeAnalysisService.analyzeCode(codeSnippet);
             System.out.println("Code Analysis Result: ");
             System.out.println(analysisResult);
         }
     }
 
+    // This function reads from the code file declared when executing the gradle command
     private String readCodeFromFile(String filePath) {
         try {
             Path path = Paths.get(filePath);

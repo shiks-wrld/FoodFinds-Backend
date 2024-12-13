@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/analysis")
 public class CodeAnalysisController {
-    private final OpenAIService openAIService;
+    private final CodeAnalysisService codeAnalysisService;
 
     @Autowired
-    public CodeAnalysisController(OpenAIService openAIService) {
-        this.openAIService = openAIService;
+    public CodeAnalysisController(CodeAnalysisService codeAnalysisService) {
+        this.codeAnalysisService = codeAnalysisService;
     }
 
     @PostMapping
     public String analyzeCode(@RequestBody String code) {
-        return openAIService.analyzeCode(code);
+        return codeAnalysisService.analyzeCode(code);
     }
 }
