@@ -29,3 +29,22 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.register('buildJar', Jar) {
+    manifest {
+        attributes(
+                'Main-Class': 'com.example.foodfindsbackend.FoodFindsBackendApplication'
+        )
+    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+tasks.register('runCodeAnalysis', JavaExec) {
+    main = 'com.example.foodfindsbackend.FoodFindsBackendApplication'
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Read file content and pass as a single string argument
+    def codeSnippet = file('src/main/java/com/example/foodfindsbackend/controller/ReviewController.java').text
+    args = ["${codeSnippet}"]
+}

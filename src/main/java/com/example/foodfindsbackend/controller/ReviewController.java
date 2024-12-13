@@ -70,17 +70,23 @@ public class ReviewController {
     }
 
     private boolean isValidReviewData(Review review) {
-        if (review.getAddress() == null || review.getAddress().isEmpty() ||
-                review.getLocationName() == null || review.getLocationName().isEmpty() ||
-                review.getCuisine() == null || review.getCuisine().isEmpty() ||
-                review.getRating() == null || review.getRating() < 0 || review.getRating() > 5) {
+        if (review.getAddress() == null || review.getAddress().isEmpty()) {
             return false;
         }
-
-        if (review.getRating() < 3 && (review.getComments() == null || review.getComments().isEmpty())) {
+        if (review.getLocationName() == null || review.getLocationName().isEmpty()) {
             return false;
         }
-
+        if (review.getCuisine() == null || review.getCuisine().isEmpty()) {
+            return false;
+        }
+        if (review.getRating() == null || review.getRating() < 0 || review.getRating() > 5) {
+            return false;
+        }
+        if (review.getRating() < 3) {
+            if (review.getComments() == null || review.getComments().isEmpty()) {
+                return false;
+            }
+        }
         return true;
     }
 }
