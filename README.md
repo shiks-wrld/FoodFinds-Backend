@@ -5,7 +5,7 @@ This project was generated using Java 17 and Spring Boot.
 
 ## Frontend Application
 
-To connect this application with the frontend, you can access the backend code here: https://github.com/shiks-wrld/FoodFinds
+To connect this application with the frontend, you can access the backend code here: https://github.com/shiks-wrld/FoodFinds-Frontend
 
 ## Development server
 
